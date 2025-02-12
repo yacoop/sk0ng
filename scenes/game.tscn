@@ -44,4 +44,4 @@ physics_material_override = SubResource("PhysicsMaterial_ljif3")
 [node name="pickable" parent="." instance=ExtResource("5_j5ocs")]
 position = Vector2(133, 220)
 
-[connection signal="area_entered" from="pickable" to="Player" method="_on_pickable_area_entered"]
+[connection signal="body_entered" from="pickable" to="Player" method="_on_pickable_body_entered"]

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var ui = $"../Ui"
+@onready var pickable_count = $"../Ui"
 
 
 const SPEED = 300.0
@@ -26,8 +26,6 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
-func _on_pickable_area_entered(area):
-	print("dupa")
-	ui.color = Color(1,1,1,1)
-	#pass # Replace with function body.aa
+func _on_pickable_body_entered(body: Node2D) -> void:
+	pickable_count.color = Color(1,1,1,1)
+	print(body)
