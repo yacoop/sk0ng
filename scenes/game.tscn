@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://33dkvsagdp2m"]
+
+[ext_resource type="Texture2D" uid="uid://cbgi3clrywis0" path="res://icon.svg" id="1_qfkrk"]
+[ext_resource type="PackedScene" uid="uid://cwnrwkgwmdbno" path="res://scenes/player.tscn" id="2_2ywso"]
+[ext_resource type="PackedScene" uid="uid://buqanlw2qy4au" path="res://scenes/floor.tscn" id="3_pw1aq"]
+
+[sub_resource type="GDScript" id="GDScript_luiua"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"p1_jump\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis(\"p1_left\", \"p1_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ljif3"]
+
+[node name="Game" type="Node"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(574, 324)
+scale = Vector2(8.96875, 5.0625)
+texture = ExtResource("1_qfkrk")
+
+[node name="Player" parent="." instance=ExtResource("2_2ywso")]
+position = Vector2(571, 257)
+scale = Vector2(10, 10)
+script = SubResource("GDScript_luiua")
+
+[node name="Floor" parent="." instance=ExtResource("3_pw1aq")]
+position = Vector2(667, 554)
+scale = Vector2(100, 1)
+physics_material_override = SubResource("PhysicsMaterial_ljif3")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 297.0
+offset_top = 134.0
+offset_right = 429.0
+offset_bottom = 244.0
+text = "SPACE - jump
+A - go left
+D - go right"
