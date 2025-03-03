@@ -27,5 +27,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_pickable_body_entered(body: Node2D) -> void:
-	pickable_count.color = Color(1,1,1,1)
+	if pickable_count.color == Color(0, 0, 0, 1):
+		pickable_count.color = Color(1,1,1,1)
+	elif pickable_count.color == Color(1, 1, 1, 1):
+		pickable_count.color = Color(0, 0, 0, 1)
+		
 	print(body)
